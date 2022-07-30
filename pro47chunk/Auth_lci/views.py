@@ -17,5 +17,5 @@ def login(request):
             'username': user.username,
             'email': user.email
             },
-        'token': token.key
+        'token': token
     })
