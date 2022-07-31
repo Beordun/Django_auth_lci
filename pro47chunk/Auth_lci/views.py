@@ -9,7 +9,7 @@ def login_api(request):
     serializer = AuthTokenSerializer(data=request.data)
     serializer.is_valid(raise_exception=True)
     user = serializer.validated_data['user']
-    _, token = Authtoken.objects.create(user)
+    _, token = AuthToken.objects.create(user)
     
     return Response({
         'user_info': {
@@ -19,3 +19,26 @@ def login_api(request):
             },
         'token': token
     })
+    
+    
+@api_view(['GET'])
+def get_user_data(request):
+    user = request.user
+    
+    if user.is_authenticated:
+        return Response({
+            'user_info': {
+                'id': user.id,
+                'username': user.username,
+                'email': user.email
+                },
+        })
+    else:
+        return Response({
+            'error': 'User is not authenticated'
+        })
+        
+        
+@api_view(['POST'])
+def register_api(request):
+    pass
